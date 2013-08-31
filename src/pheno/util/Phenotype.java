@@ -20,6 +20,8 @@ public class Phenotype {
 	private int[] histogram;
 	private double[] normalizedHist;
 	private int mode;
+	private int volumeCount;
+	private double volume;
 	private int LCC;
 	
 	public Phenotype(ImagePlus image, String filename)
@@ -70,14 +72,13 @@ public class Phenotype {
 		ColorProcessor newCP = new ColorProcessor(image.getWidth(), image.getHeight());
 		newCP.setHSB(H, S, B);
 		hsbImage.setProcessor(newCP);
-//		hsbImage.show();
 	}
 	
 	public void createMask()
 	{
 		mask = new byte[image.getWidth() * image.getHeight()];
 		for (int i = 0; i < H.length; i++) {
-			if(H[i] >= 43 && H[i] <= 95)
+			if(H[i] >= (byte) 43 && H[i] <= (byte) 95)
 				mask[i] = (byte) 255;
 			else
 				mask[i] = (byte) 0;
@@ -92,6 +93,7 @@ public class Phenotype {
 	
 	public void createHistogram()
 	{
+		volumeCount = 0;
 		histogram = new int[256];
 		normalizedHist = new double[256];
 		for (int i = 0; i < histogram.length; i++) {
@@ -99,13 +101,18 @@ public class Phenotype {
 		}
 		
 		for (int j = 0; j < H.length; j++) {
-//			if(mask[j] == 255)
+			if(mask[j] == (byte) 255)
+			{
 				histogram[(int) H[j] & 0xFF]++;
+				volumeCount++;
+			}
 		}
 		
-		for (int i = 0; i < histogram.length; i++) {
-			System.out.println(histogram[i]);
-		}
+		volume = 1.0 * volumeCount / (image.getWidth() * image.getHeight()); 
+		
+//		for (int i = 0; i < histogram.length; i++) {
+//			System.out.println(histogram[i]);
+//		}
 		
 		//normalize histogram
 		for (int i = 0; i < normalizedHist.length; i++) {
@@ -239,5 +246,21 @@ public class Phenotype {
 
 	public void setFilename(String filename) {
 		this.filename = filename;
+	}
+
+	public double getVolume() {
+		return volume;
+	}
+
+	public void setVolume(double volume) {
+		this.volume = volume;
+	}
+
+	public int getVolumeCount() {
+		return volumeCount;
+	}
+
+	public void setVolumeCount(int volumeCount) {
+		this.volumeCount = volumeCount;
 	}
 }
