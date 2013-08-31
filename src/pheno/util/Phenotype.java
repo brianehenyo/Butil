@@ -47,27 +47,6 @@ public class Phenotype {
 		ColorProcessor cp = (ColorProcessor) image.getProcessor();
 		cp.getHSB(H, S, B);
 		
-//		try {
-//			 
-//			File file = new File("C:/Users/Briane/Desktop/Palette/DSCN7141 (Medium).TXT");
-// 
-//			// if file doesnt exists, then create it
-//			if (!file.exists()) {
-//				file.createNewFile();
-//			}
-// 
-//			FileWriter fw = new FileWriter(file.getAbsoluteFile());
-//			BufferedWriter bw = new BufferedWriter(fw);
-//			for (int i = 0; i < H.length; i++) {
-//				bw.write(H[i]+"");
-//				bw.newLine();
-//			}
-//			bw.close();
-// 
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-		
 		hsbImage = IJ.createImage("HSB", "8-bit", image.getWidth(), image.getHeight(), 1);
 		ColorProcessor newCP = new ColorProcessor(image.getWidth(), image.getHeight());
 		newCP.setHSB(H, S, B);
@@ -78,17 +57,12 @@ public class Phenotype {
 	{
 		mask = new byte[image.getWidth() * image.getHeight()];
 		for (int i = 0; i < H.length; i++) {
-			if(H[i] >= (byte) 43 && H[i] <= (byte) 95)
+			if(((int)H[i] & 0xFF) >= 43 && ((int)H[i] & 0xFF) <= 95)
 				mask[i] = (byte) 255;
 			else
 				mask[i] = (byte) 0;
 		}
 		
-//		ImagePlus maskImage = IJ.createImage("HSB", "8-bit", image.getWidth(), image.getHeight(), 1);
-//		ColorProcessor newCP = new ColorProcessor(image.getWidth(), image.getHeight());
-//		newCP.setHSB(mask, S, B);
-//		maskImage.setProcessor(newCP);
-//		maskImage.show();
 	}
 	
 	public void createHistogram()
@@ -101,7 +75,7 @@ public class Phenotype {
 		}
 		
 		for (int j = 0; j < H.length; j++) {
-			if(mask[j] == (byte) 255)
+			if(((int)mask[j] & 0xFF) == 255)
 			{
 				histogram[(int) H[j] & 0xFF]++;
 				volumeCount++;
@@ -156,8 +130,6 @@ public class Phenotype {
 				mode = i;
 		}
 		
-		System.out.println("Mode============================");
-		System.out.println(mode);
 	}
 
 	public ImagePlus getImage() {

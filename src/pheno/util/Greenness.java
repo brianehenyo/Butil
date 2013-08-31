@@ -85,7 +85,6 @@ public class Greenness {
 	}
 
 	public void estimateLCCMode() {
-		System.out.println("LCC Mode============================");
 
 		for (int i = 0; i < plantImages.size(); i++) {
 			if (plantImages.get(i).getMode() >= LCCMode[3]
@@ -108,7 +107,6 @@ public class Greenness {
 	}
 
 	public void estimateLCC() {
-		System.out.println("LCC=================================");
 
 		for (int i = 0; i < plantImages.size(); i++) {
 			int estLCC = 2;
