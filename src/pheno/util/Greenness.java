@@ -30,9 +30,8 @@ public class Greenness {
 		// get all the files from a directory
 		File[] fList = directory.listFiles();
 
-		// ImagePlus imp =
-		// opener.openImage("C:/Users/Briane/Desktop/PhenotypicALL/DSCN7141 (Medium).JPG");
-		// plantImages.add(new Phenotype(imp,"DSCN7141 (Medium).JPG"));
+//		 ImagePlus imp = opener.openImage("C:/Users/Briane/Desktop/Palette/LCCv25.JPG");
+//		 plantImages.add(new Phenotype(imp,"LCCv25.JPG"));
 		// plantImages.get(0).saveHistogram("src\\palette\\LCC5.pheno");
 		// imp.show();
 
