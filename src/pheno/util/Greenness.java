@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import pheno.dao.PlantManager;
+import pheno.dao.RowManager;
+
 import ij.IJ;
 import ij.ImagePlus;
 import ij.io.Opener;
@@ -21,6 +24,7 @@ public class Greenness {
 		loadPalette();
 		loadImages(directory);
 		estimateLCCMode();
+		saveValuesToDB();
 	}
 
 	public void loadImages(String directoryName) {
@@ -103,6 +107,22 @@ public class Greenness {
 					+ plantImages.get(i).getLCC() + " - "
 					+ plantImages.get(i).getMode() + " - "
 					+ plantImages.get(i).getVolume());
+		}
+	}
+	
+	public void saveValuesToDB()
+	{
+		Entry e;
+		for (int i = 0; i < plantImages.size(); i++) 
+		{
+			e = new Entry();
+	        e.setPicture_id(i);
+	        e.setRow_id(1);
+	        e.setD_greeness(plantImages.get(i).getLCC()+"");
+	        e.setD_vphenotype(plantImages.get(i).getFilename());
+	        e.setD_volume(plantImages.get(i).getVolume()*100 +"");
+	        
+	        new RowManager().addEntry(e);
 		}
 	}
 
